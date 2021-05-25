@@ -18,6 +18,7 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import InfoIcon from "@material-ui/icons/Info";
 import SmartphoneIcon from "@material-ui/icons/Smartphone";
 import WorkIcon from "@material-ui/icons/Work";
+import { motion } from "framer-motion";
 
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
@@ -93,12 +94,19 @@ function ListItemLink(props: ListItemLinkProps) {
   );
 }
 
+const variants = {
+  open: { opacity: 1, x: 0 },
+  closed: { opacity: 0, x: "-100%" },
+};
+
 export default function SideDrawer() {
   const classes = useStyles();
   type Anchor = "right";
   const [state, setState] = React.useState({
     right: false,
   });
+
+  const [isOpen, setIsOpen] = useState(false);
 
   const toggleDrawer =
     (anchor: Anchor, open: boolean) =>
@@ -160,6 +168,7 @@ export default function SideDrawer() {
           <Button onClick={toggleDrawer(anchor, true)}>
             <Menu fontSize="large" style={{ color: `white` }} />
           </Button>
+
           <SwipeableDrawer
             anchor={anchor}
             open={state[anchor]}

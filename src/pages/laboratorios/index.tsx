@@ -1,4 +1,4 @@
-import { CssBaseline } from "@material-ui/core";
+import { CssBaseline, ListItem } from "@material-ui/core";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import axios from "axios";
 import { FormEvent, useEffect, useState } from "react";
@@ -6,6 +6,8 @@ import { useHistory } from "react-router";
 import { Navbartop } from "../../components/navbartop/navbartest";
 import { Barrinha } from "../../components/sidebar";
 import api from "../../services/api";
+import styled from "@emotion/styled";
+import { AnimatePresence, AnimateSharedLayout, motion } from "framer-motion";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -37,6 +39,8 @@ function Projects() {
   //     res => setState(res.data);
   //   );
   // });
+  const [selectedId, setSelectedId] = useState(null);
+
   const dados = {
     token: "269add21e1b01a62f8854b6e2a0e38",
     username: "test10",
@@ -52,6 +56,18 @@ function Projects() {
     api.get("/laboratory/", config).then((res) => setState(res.data));
   }, [dados.token, dados.username]);
 
+  // const CardContainer = styled(motion.div)`
+  //   display: grid;
+  //   place-content: center;
+  //   padding: 8px;
+  //   background-color: white;
+
+  //   height: 50px;
+  //   width: 200px;
+
+  //   border-radius: 8px;
+  // `;
+
   return (
     <>
       <CssBaseline />
@@ -61,19 +77,52 @@ function Projects() {
         ""
       ) : ( */}
       {/* ISSO É PARA O RETORNO DE UMA STRING APENAS */}
-      {state.map((d) => (
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          {d}
-        </div>
-      ))}
+      {/* <Grid> */}
+      <AnimatePresence>
+        {state.map((d, idx) => (
+          <Bloco
+            // pra mostrar item por item preciso da key
+            key={d}
+            whileHover={{ backgroundColor: "green" }}
+            animate={{
+              scale: [1, 1.5, 1],
+              // rotate: [10, 0, 0],
+              transition: {
+                delay: 0.2 * idx,
+                duration: 0.5,
+                opacity: 0.2 * idx,
+              },
+            }}
+          >
+            {d}
+          </Bloco>
+        ))}
+      </AnimatePresence>
     </>
   );
 }
 
+const Grid = styled.div`
+  display: flex;
+`;
+
+const Bloco = styled(motion.div)`
+  display: flex;
+  flex-direction: column;
+  justifycontent: space-between;
+  align-items: center;
+  background-color: #01573d;
+  padding: 20px; /* this */
+  margin: 20px;
+  transition: 1s background-color;
+  flex-grow: 1;
+`;
+
 export default Projects;
+
+// // {state.map((d)
+//       {/* // style={{
+//       //   display: "flex",
+//       //   alignItems: "center",
+//       //   justifyContent: "center",
+//       // }}
