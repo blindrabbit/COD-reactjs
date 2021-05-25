@@ -6,6 +6,7 @@ import Dashboard from "./pages/dashboard";
 import CadastroUser from "./pages/cadastroUser";
 import Home from "./pages/home";
 import Equip from "./pages/equip";
+import Projects from "./pages/laboratorios";
 // DEFININDO AS ROTAS
 // Também tenho as funções para chamar as páginas
 
@@ -13,6 +14,7 @@ const Rotas = () => {
   return (
     <BrowserRouter>
       {/* adicionar as rotas futuramente. exemplo abaixo*/}
+      <Route component={Projects} path="/projects" exact />
       <Route component={Equip} path="/equip" exact />
       <Route component={Home} path="/" exact />
       <Route component={CadastroUser} path="/cadastrouser" exact />

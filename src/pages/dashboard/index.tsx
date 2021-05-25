@@ -16,6 +16,7 @@ import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import Paper from "@material-ui/core/Paper";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
+import { Navbartop } from "../../components/navbartop/navbartest";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -35,7 +36,8 @@ function Dashboard() {
 
   return (
     <>
-      <Barrinha />
+      <CssBaseline />
+      <Navbartop />
       {/* <Footer /> */}
     </>
   );

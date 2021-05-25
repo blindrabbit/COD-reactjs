@@ -69,7 +69,7 @@ export const Barrinha = () => {
             <Menu iconShape="square">
               <MenuItem icon={<FiHome />}>
                 Home
-                <Link to="/dashboard" />
+                <Link to="#" />
               </MenuItem>
               <SubMenu title="Salas de Aula" icon={<FiEdit3 />}>
                 {/* you can have more nested submenus ... */}
