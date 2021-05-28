@@ -1,8 +1,9 @@
 import styled from "styled-components";
 import { AiFillAndroid } from "react-icons/ai";
 import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import barrinhaService from "../../services/barrinhaState";
 
 // import "./style.css";
 
@@ -13,6 +14,16 @@ const navBarVariants = {
 
 export default function SidebarDashboard() {
   const [collapsed, setCollapsed] = useState(true);
+  // new barrinhaService();
+
+  function mudarEstadoBarrinha() {
+    if (collapsed) {
+      barrinhaService.barrinhaOpen();
+    } else {
+      barrinhaService.barrinhaClose();
+    }
+    setCollapsed((prev) => !prev);
+  }
 
   return (
     <AppContainer>
@@ -20,7 +31,7 @@ export default function SidebarDashboard() {
         variants={navBarVariants}
         initial={!collapsed ? "full" : "collapsed"}
         animate={!collapsed ? "full" : "collapsed"}
-        onClick={() => setCollapsed((prev) => !prev)}
+        onClick={() => mudarEstadoBarrinha()}
       >
         <SideBarHeader
           initial={{ height: 168 }}
@@ -109,6 +120,13 @@ export default function SidebarDashboard() {
           </SideBarMenuItem>
         </SideBarFooter>
       </NavContainer>
+
+      {/* <Content
+        initial={{ marginLeft: 200 }}
+        animate={{ marginLeft: collapsed ? 64 : 200 }}
+      >
+        <h1>Placeholder</h1>
+      </Content> */}
     </AppContainer>
   );
 }
@@ -168,3 +186,7 @@ const SideBarMenuItem = styled.li`
     white-space: nowrap;
   }
 `;
+
+// const Content = styled(motion.div)`
+//   padding: 16px;
+// `;

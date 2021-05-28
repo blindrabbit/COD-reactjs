@@ -3,7 +3,8 @@ import styled from "styled-components";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import SidebarDashboard from "../../components/sidebar";
 import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import barrinhaService from "../../services/barrinhaState";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -22,30 +23,34 @@ function Dashboard() {
   const classes = useStyles();
   const [collapsed, setCollapsed] = useState(true);
 
+  useEffect(() => {
+    const subscribe = barrinhaService.onBarrinha().subscribe((state) => {
+      if (state) {
+        setCollapsed(false);
+      } else {
+        setCollapsed(true);
+      }
+    });
+  });
+
   return (
     <>
       {/* <CssBaseline /> */}
       <SidebarDashboard />
+      {/* <Navbartop /> */}
+      {/* <Footer /> */}
       <Content
         initial={{ marginLeft: 200 }}
-        animate={{ marginLeft: collapsed ? 64 : 168 }}
+        animate={{ marginLeft: collapsed ? 64 : 200 }}
       >
         <h1>Placeholder</h1>
       </Content>
-      {/* <Navbartop /> */}
-      {/* <Footer /> */}
     </>
   );
 }
 
 const Content = styled(motion.div)`
-  display: flex;
-  background: white;
-  height: 120px;
-  width: 100%;
-  justify-content: center;
-  border-width: 25px;
-  border-color: red;
+  padding: 16px;
 `;
 
 export default Dashboard;
