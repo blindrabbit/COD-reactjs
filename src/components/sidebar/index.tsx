@@ -1,107 +1,125 @@
-//import useState hook to create menu collapse state
-import React, { useState } from "react";
-import logo from "../../assets/img/COD_LOGOvs2.png";
-import foto from "../../assets/img/foto.png";
-import { FaHeart } from "react-icons/fa";
+import styled from "@emotion/styled";
+import { AiFillAndroid } from "react-icons/ai";
+import { AnimatePresence, motion } from "framer-motion";
+import { useState } from "react";
 
-//import react pro sidebar components
-import {
-  ProSidebar,
-  Menu,
-  MenuItem,
-  SidebarHeader,
-  SubMenu,
-  SidebarFooter,
-  SidebarContent,
-} from "react-pro-sidebar";
+// import "./style.css";
 
-//import icons from react icons
-import { FaList, FaRegHeart } from "react-icons/fa";
-import {
-  FiHome,
-  FiLogOut,
-  FiArrowLeftCircle,
-  FiArrowRightCircle,
-  FiEdit3,
-  FiMonitor,
-  FiWifi,
-} from "react-icons/fi";
-import { RiPencilLine } from "react-icons/ri";
-import { BiCog } from "react-icons/bi";
-
-//import sidebar css from react-pro-sidebar module and our custom css
-import "react-pro-sidebar/dist/css/styles.css";
-import "./style.css";
-import { Link } from "react-router-dom";
-
-export const Barrinha = () => {
-  //create initial menuCollapse state using useState hook
-  const [menuCollapse, setMenuCollapse] = useState(false);
-
-  //create a custom function that will change menucollapse state from false to true and true to false
-  const menuIconClick = () => {
-    //condition checking to change state from true to false and vice versa
-    menuCollapse ? setMenuCollapse(false) : setMenuCollapse(true);
-  };
-
-  return (
-    <>
-      <div id="header">
-        {/* collapsed props to change menu size using menucollapse state */}
-        <ProSidebar collapsed={menuCollapse}>
-          <SidebarHeader>
-            <div className="logotext">
-              {/* small and big change using menucollapse state */}
-              <p>
-                {menuCollapse ? (
-                  <img className="img_test" src={foto} />
-                ) : (
-                  <img className="img_test" src={foto} />
-                )}
-              </p>
-            </div>
-            <div className="closemenu" onClick={menuIconClick}>
-              {/* changing menu collapse icon on click */}
-              {menuCollapse ? <FiArrowRightCircle /> : <FiArrowLeftCircle />}
-            </div>
-          </SidebarHeader>
-          <SidebarContent>
-            <Menu iconShape="square">
-              <MenuItem icon={<FiHome />}>
-                Home
-                <Link to="#" />
-              </MenuItem>
-              <SubMenu title="Salas de Aula" icon={<FiEdit3 />}>
-                {/* you can have more nested submenus ... */}
-                <MenuItem icon={<RiPencilLine />}>Adicionar Sala</MenuItem>
-                <MenuItem icon={<RiPencilLine />}>Minhas Salas</MenuItem>
-              </SubMenu>
-              <SubMenu title="VM's" icon={<FiMonitor />}>
-                <MenuItem icon={<RiPencilLine />}>Solicitar VM</MenuItem>
-                <MenuItem icon={<RiPencilLine />}>MInhas VM's</MenuItem>
-              </SubMenu>
-              <SubMenu title="Redes" icon={<FiWifi />}>
-                <MenuItem icon={<RiPencilLine />}>Criar rede</MenuItem>
-                <MenuItem icon={<RiPencilLine />}>Minhas redes</MenuItem>
-                <MenuItem icon={<RiPencilLine />}>Criar Políticas</MenuItem>
-                <MenuItem icon={<RiPencilLine />}>Minhas Políticas</MenuItem>
-              </SubMenu>
-              <SubMenu title="Perfil" icon={<BiCog />}>
-                <MenuItem icon={<RiPencilLine />}>Alterar Senha</MenuItem>
-              </SubMenu>
-            </Menu>
-          </SidebarContent>
-          <SidebarFooter>
-            <Menu iconShape="square">
-              <MenuItem icon={<FiLogOut />}>Logout</MenuItem>
-            </Menu>
-          </SidebarFooter>
-        </ProSidebar>
-      </div>
-    </>
-  );
+const navBarVariants = {
+  collapsed: { width: 32, opacity: 0.7 },
+  full: { width: 168, opacity: 1 },
 };
 
-// export default Barrinha;
+export default function SidebarDashboard() {
+  const [collapsed, setCollapsed] = useState(true);
 
-// payload = {14’username ’: ’test123 ’,15’laboratory_name ’: ’projeto_test70 ’,16’t
+  return (
+    <AppContainer>
+      <NavContainer
+        variants={navBarVariants}
+        initial={!collapsed ? "full" : "collapsed"}
+        animate={!collapsed ? "full" : "collapsed"}
+        onClick={() => setCollapsed((prev) => !prev)}
+      >
+        <SideBarHeader
+          initial={{ height: 168 }}
+          animate={{ height: collapsed ? 32 : 168 }}
+        >
+          <SideBarHeaderImage />
+        </SideBarHeader>
+
+        <SideBarBody>
+          <SideBarMenuItem>
+            <AiFillAndroid size={32} />
+
+            <AnimatePresence exitBeforeEnter>
+              {!collapsed && (
+                <motion.span
+                  layout
+                  exit={{ opacity: 0 }}
+                  initial={{ opacity: collapsed ? 0 : 1 }}
+                >
+                  Item 1
+                </motion.span>
+              )}
+            </AnimatePresence>
+          </SideBarMenuItem>
+        </SideBarBody>
+
+        <SideBarFooter>
+          <SideBarMenuItem>
+            <AiFillAndroid size={32} />
+            <motion.span>Item 6</motion.span>
+          </SideBarMenuItem>
+        </SideBarFooter>
+      </NavContainer>
+
+      <Content
+        initial={{ marginLeft: 200 }}
+        animate={{ marginLeft: collapsed ? 64 : 200 }}
+      >
+        <h1>Placeholder</h1>
+      </Content>
+    </AppContainer>
+  );
+}
+
+const SideBarFooter = styled.footer`
+  margin-top: auto;
+`;
+
+const AppContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+const NavContainer = styled(motion.nav)`
+  position: fixed;
+  height: 100vh;
+  padding: 16px;
+  background-color: black;
+
+  display: flex;
+  flex-direction: column;
+`;
+
+const Content = styled(motion.div)`
+  padding: 16px;
+`;
+
+const SideBarHeader = styled(motion.header)``;
+
+const SideBarBody = styled.div`
+  margin-top: 16px;
+  padding-top: 16px;
+  display: grid;
+  row-gap: 8px;
+
+  border-top: 1px solid white;
+`;
+
+const SideBarHeaderImage = styled.div`
+  height: 100%;
+  width: 100%;
+
+  background: url(https://media.istockphoto.com/vectors/default-placeholder-man-vector-id844000458?b=1&k=6&m=844000458&s=612x612&w=0&h=AVkS41pQt_z5_7aDjPuU0OlcCe0-ZWK7agbV5ChNPSY=);
+  background-color: black;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+
+  border-radius: 50%;
+`;
+
+const SideBarMenuItem = styled.li`
+  display: flex;
+  align-items: center;
+
+  color: white;
+  list-style-type: none;
+
+  span {
+    margin-left: 8px;
+    white-space: nowrap;
+  }
+`;

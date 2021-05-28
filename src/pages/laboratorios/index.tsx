@@ -4,10 +4,11 @@ import axios from "axios";
 import { FormEvent, useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import { Navbartop } from "../../components/navbartop/navbartest";
-import { Barrinha } from "../../components/sidebar";
+// import { Barrinha } from "../../components/sidebar";
 import api from "../../services/api";
 import styled from "@emotion/styled";
 import { AnimatePresence, AnimateSharedLayout, motion } from "framer-motion";
+import SidebarDashboard from "../../components/sidebar";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -71,7 +72,7 @@ function Projects() {
   return (
     <>
       <CssBaseline />
-      <Navbartop /> {/* <CssBaseline /> */}
+      <SidebarDashboard /> {/* <CssBaseline /> */}
       {/* ISSO É PARA O CASO DE EU QUERER UM DADO QUE EU VÁ TRABALHAR COM ELE */}
       {/* {state === "" ? (
         ""
