@@ -1,12 +1,13 @@
-import styled from "@emotion/styled";
+import styled from "styled-components";
 import { AiFillAndroid } from "react-icons/ai";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 // import "./style.css";
 
 const navBarVariants = {
-  collapsed: { width: 32, opacity: 0.7 },
+  collapsed: { width: 64, opacity: 0.7 },
   full: { width: 168, opacity: 1 },
 };
 
@@ -23,12 +24,57 @@ export default function SidebarDashboard() {
       >
         <SideBarHeader
           initial={{ height: 168 }}
-          animate={{ height: collapsed ? 32 : 168 }}
+          animate={{ height: collapsed ? 32 : 160 }}
         >
           <SideBarHeaderImage />
         </SideBarHeader>
 
         <SideBarBody>
+          <SideBarMenuItem>
+            <AiFillAndroid size={32} />
+
+            <AnimatePresence exitBeforeEnter>
+              {!collapsed && (
+                <motion.span
+                  layout
+                  exit={{ opacity: 0 }}
+                  initial={{ opacity: collapsed ? 0 : 1 }}
+                >
+                  <Link to="/">teste</Link>
+                </motion.span>
+              )}
+            </AnimatePresence>
+          </SideBarMenuItem>
+          <SideBarMenuItem>
+            <AiFillAndroid size={32} />
+
+            <AnimatePresence exitBeforeEnter>
+              {!collapsed && (
+                <motion.span
+                  layout
+                  exit={{ opacity: 0 }}
+                  initial={{ opacity: collapsed ? 0 : 1 }}
+                >
+                  Item 1
+                </motion.span>
+              )}
+            </AnimatePresence>
+          </SideBarMenuItem>
+          <SideBarMenuItem>
+            <AiFillAndroid size={32} />
+
+            <AnimatePresence exitBeforeEnter>
+              {!collapsed && (
+                <motion.span
+                  layout
+                  exit={{ opacity: 0 }}
+                  initial={{ opacity: collapsed ? 0 : 1 }}
+                >
+                  Item 1
+                </motion.span>
+              )}
+            </AnimatePresence>
+          </SideBarMenuItem>
           <SideBarMenuItem>
             <AiFillAndroid size={32} />
 
@@ -49,17 +95,20 @@ export default function SidebarDashboard() {
         <SideBarFooter>
           <SideBarMenuItem>
             <AiFillAndroid size={32} />
-            <motion.span>Item 6</motion.span>
+            <AnimatePresence exitBeforeEnter>
+              {!collapsed && (
+                <motion.span
+                  layout
+                  exit={{ opacity: 0 }}
+                  initial={{ opacity: collapsed ? 0 : 1 }}
+                >
+                  Item 6
+                </motion.span>
+              )}
+            </AnimatePresence>
           </SideBarMenuItem>
         </SideBarFooter>
       </NavContainer>
-
-      <Content
-        initial={{ marginLeft: 200 }}
-        animate={{ marginLeft: collapsed ? 64 : 200 }}
-      >
-        <h1>Placeholder</h1>
-      </Content>
     </AppContainer>
   );
 }
@@ -77,14 +126,10 @@ const NavContainer = styled(motion.nav)`
   position: fixed;
   height: 100vh;
   padding: 16px;
-  background-color: black;
+  background-color: #01573d;
 
   display: flex;
   flex-direction: column;
-`;
-
-const Content = styled(motion.div)`
-  padding: 16px;
 `;
 
 const SideBarHeader = styled(motion.header)``;
