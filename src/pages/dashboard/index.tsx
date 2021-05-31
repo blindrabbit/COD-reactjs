@@ -41,7 +41,7 @@ function Dashboard() {
       {/* <Footer /> */}
       <Content
         initial={{ marginLeft: 200 }}
-        animate={{ marginLeft: collapsed ? 64 : 200 }}
+        animate={{ marginLeft: collapsed ? 64 : 168 }}
       >
         <h1>Placeholder</h1>
       </Content>
@@ -50,7 +50,11 @@ function Dashboard() {
 }
 
 const Content = styled(motion.div)`
-  padding: 16px;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: black;
 `;
 
 export default Dashboard;

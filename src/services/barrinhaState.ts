@@ -8,4 +8,6 @@ class barrinhaService {
     onBarrinha () {return this.subject.asObservable()};
 };
 
+
+
 export default new barrinhaService();

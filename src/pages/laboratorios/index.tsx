@@ -9,6 +9,7 @@ import api from "../../services/api";
 import styled from "@emotion/styled";
 import { AnimatePresence, AnimateSharedLayout, motion } from "framer-motion";
 import SidebarDashboard from "../../components/sidebar";
+import barrinhaService from "../../services/barrinhaState";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -69,9 +70,20 @@ function Projects() {
   //   border-radius: 8px;
   // `;
 
+  const [collapsed, setCollapsed] = useState(true);
+
+  useEffect(() => {
+    const subscribe = barrinhaService.onBarrinha().subscribe((state) => {
+      if (state) {
+        setCollapsed(false);
+      } else {
+        setCollapsed(true);
+      }
+    });
+  });
+
   return (
     <>
-      <CssBaseline />
       <SidebarDashboard /> {/* <CssBaseline /> */}
       {/* ISSO É PARA O CASO DE EU QUERER UM DADO QUE EU VÁ TRABALHAR COM ELE */}
       {/* {state === "" ? (
@@ -79,44 +91,44 @@ function Projects() {
       ) : ( */}
       {/* ISSO É PARA O RETORNO DE UMA STRING APENAS */}
       {/* <Grid> */}
-      <AnimatePresence>
-        {state.map((d, idx) => (
-          <Bloco
-            // pra mostrar item por item preciso da key
-            key={d}
-            whileHover={{ backgroundColor: "green" }}
-            animate={{
-              scale: [1, 1.5, 1],
-              // rotate: [10, 0, 0],
-              transition: {
-                delay: 0.2 * idx,
-                duration: 0.5,
-                opacity: 0.2 * idx,
-              },
-            }}
-          >
-            {d}
-          </Bloco>
-        ))}
-      </AnimatePresence>
+      <Container>
+        <AnimatePresence>
+          {state.map((d, idx) => (
+            <Bloco
+              // pra mostrar item por item preciso da key
+              key={d}
+              whileHover={{ backgroundColor: "green" }}
+              initial={{ marginLeft: 200 }}
+              animate={{ marginLeft: collapsed ? 64 : 168 }}
+            >
+              {d}
+            </Bloco>
+          ))}
+        </AnimatePresence>
+      </Container>
     </>
   );
 }
 
-const Grid = styled.div`
+const Container = styled.div`
   display: flex;
+  justifycontent: center;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const Bloco = styled(motion.div)`
   display: flex;
   flex-direction: column;
-  justifycontent: space-between;
+  justifycontent: center;
   align-items: center;
   background-color: #01573d;
   padding: 20px; /* this */
   margin: 20px;
   transition: 1s background-color;
-  flex-grow: 1;
+  // flex-grow: 1;
+  width: 40%;
+  // height: 20%;
 `;
 
 export default Projects;
