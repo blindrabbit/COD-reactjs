@@ -129,6 +129,7 @@ const Bloco = styled(motion.div)`
   // flex-grow: 1;
   width: 40%;
   // height: 20%;
+  color: white;
 `;
 
 export default Projects;
