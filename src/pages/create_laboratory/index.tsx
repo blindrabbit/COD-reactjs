@@ -54,7 +54,7 @@ function CadastroProject() {
     const data = {
       laboratory_name,
       time,
-      token: "269add21e1b01a62f8854b6e2a0e38",
+      token: "4f0b281fa3473d187b9271e9a75f07",
       username: "test10",
     };
     console.log(data);
