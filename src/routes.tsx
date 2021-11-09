@@ -9,6 +9,8 @@ import Equip from "./pages/equip";
 import Projects from "./pages/laboratorios";
 import CadastroProject from "./pages/create_laboratory";
 import List_image from "./pages/select_image";
+import Pagina_de_Teste from "./pages/pagina_de_teste";
+
 // DEFININDO AS ROTAS
 // Também tenho as funções para chamar as páginas
 
@@ -26,6 +28,7 @@ const Rotas = () => {
       <Route component={Dashboard} path="/dashboard" exact />
       <Route component={login} path="/login" exact />
       <Route component={Authentication} path="/authentication" exact />
+      <Route component={Pagina_de_Teste} path="/Pagina_de_Teste" exact />
     </BrowserRouter>
   );
 };

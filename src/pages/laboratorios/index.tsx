@@ -1,4 +1,4 @@
-import { CssBaseline, ListItem } from "@material-ui/core";
+import { CssBaseline, ListItem, Button} from "@material-ui/core";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import axios from "axios";
 import { FormEvent, useEffect, useState } from "react";
@@ -10,6 +10,7 @@ import styled from "@emotion/styled";
 import { AnimatePresence, AnimateSharedLayout, motion } from "framer-motion";
 import SidebarDashboard from "../../components/sidebar";
 import barrinhaService from "../../services/barrinhaState";
+import clsx from "clsx";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -105,6 +106,10 @@ function Projects() {
             </Bloco>
           ))}
         </AnimatePresence>
+        
+        <div>
+                  <Button className={clsx(classes.root)}>Laboratórios disponíveis!</Button>
+                </div>
       </Container>
     </>
   );

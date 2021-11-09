@@ -7,7 +7,7 @@ import "./style.css";
 import { Navbartop } from "../../components/navbartop/navbartest";
 // import './scripts.js';
 import { Button, CssBaseline, Grid } from "@material-ui/core";
-import logo from "../../assets/img/COD_LOGOvs2.png";
+import logo from "../../assets/img/COD_LOGOvs3.png";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import clsx from "clsx";
@@ -67,8 +67,8 @@ function Home(): JSX.Element {
                 className="bloco-externo-title"
                 data-aos="fade-right"
               >
-                <h1>Campus On Demand</h1>
-                <h3>alguma descrição legal aqui.</h3>
+                <h1>LABVER</h1>
+                <h3>Portal da arquitetura LABVER.</h3>
               </Grid>
               <Grid item xs={12} alignContent="center"></Grid>
               <Grid
@@ -79,7 +79,7 @@ function Home(): JSX.Element {
                 data-aos="fade-top"
               >
                 <div>
-                  <Button className={clsx(classes.root)}>Comece Agora!</Button>
+                  <Button className={clsx(classes.root)}>Laboratórios disponíveis!</Button>
                 </div>
               </Grid>
             </Grid>

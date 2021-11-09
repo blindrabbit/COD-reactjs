@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { useState, FormEvent, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import api from "../../services/api";
@@ -6,9 +7,13 @@ import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
+import Grid from "@material-ui/core/Grid";
+import Paper from "@material-ui/core/Paper";
+import InputLabel from "@material-ui/core/InputLabel";
+import Select from "@material-ui/core/Select";
+import MenuItem from '@material-ui/core/MenuItem';
 import Fingerprint from "@material-ui/icons/Fingerprint";
 import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Footer from "../../components/footer/footer";
 import { Navbartop } from "../../components/navbartop/navbartest";
@@ -17,10 +22,14 @@ import barrinhaService from "../../services/barrinhaState";
 import styled from "@emotion/styled";
 import { AnimatePresence, AnimateSharedLayout, motion } from "framer-motion";
 import { SiGoogleclassroom } from "react-icons/si";
+import Switch from '@material-ui/core/Switch';
+import { makeStyles } from "@material-ui/core/styles";
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
-const UseStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme) => ({
   paper: {
-    marginTop: theme.spacing(10),
+    marginTop: theme.spacing(5),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -31,7 +40,7 @@ const UseStyles = makeStyles((theme) => ({
   },
   form: {
     width: "100%",
-    marginTop: theme.spacing(1),
+    marginTop: theme.spacing(0),
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
@@ -45,7 +54,15 @@ function CadastroProject() {
   // const [username, setUsername] = useState("");
   // variavel auxiliar que funciona como histório de navegação
   const history = useHistory();
-  const classes = UseStyles();
+  const classes = useStyles();
+  const [value, setValue] = React.useState(0);
+ 
+  const [collapsed, setCollapsed] = useState(true);
+
+  const mudarswitch = () => {
+    alert("valor");
+    // const [show, toggleShow] = useState(true);
+  };
   const enviar = async (e: FormEvent) => {
     e.preventDefault();
 
@@ -78,18 +95,6 @@ function CadastroProject() {
       });
   };
 
-  const [collapsed, setCollapsed] = useState(true);
-
-  useEffect(() => {
-    const subscribe = barrinhaService.onBarrinha().subscribe((state) => {
-      if (state) {
-        setCollapsed(false);
-      } else {
-        setCollapsed(true);
-      }
-    });
-  });
-
   return (
     // importante, sempre retornar um componente
     // exemplo: ou uma div inteira, ou um h1
@@ -99,47 +104,188 @@ function CadastroProject() {
       <SidebarDashboard />
       <Container_animate>
         <AnimatePresence>
-          <Bloco
-            initial={{ marginLeft: 200 }}
-            animate={{ marginLeft: collapsed ? 64 : 168 }}
-          >
-            <CssBaseline />
-            <div className={classes.paper}>
-              <Avatar className={classes.avatar}>
-                <SiGoogleclassroom />
-              </Avatar>
-              <Typography component="h1" variant="h5">
-                Sala de aula
-              </Typography>
-            </div>
+          <form className={classes.form} noValidate>
+            <Grid style={{ border: "solid" }}
+              container
+              spacing={0}
+              direction="row"
+              alignItems="flex-start"
+              justify="center">
+              <Grid item xs={10} style={{ border: "solid" }}>
+                <CssBaseline />
+                <div className={classes.paper}>
+                  <Avatar className={classes.avatar}>
+                    <SiGoogleclassroom />
+                  </Avatar>
+                  <Typography component="h1" variant="h5">
+                    Laboratorio Virtual
+                  </Typography>
+                </div>
+              </Grid>
+              <Grid item xs={4} style={{ border: "solid" }}>
+                <div className={classes.paper}>
+                  <Typography component="h1" variant="h5">
+                    Informações Básicas
+                  </Typography>
+                </div>
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="nomeLab"
+                  label="Nome do Laboratorio Virtual"
+                  name="laboratory_name"
+                  autoComplete="nome do Serviço"
+                  autoFocus
+                  onChange={(e) => setLaboratory_name(e.target.value)}
+                  type="text"
+                />
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  fullWidth
+                  id="select"
+                  label="Turma"
+                  value=""
+                  select
+                >
+                  <MenuItem value="">
+                    <em>Nenhuma</em>
+                  </MenuItem>
+                  <MenuItem value="1">TURMA 1</MenuItem>
+                  <MenuItem value="2">TURMA 2</MenuItem>
+                  <MenuItem value="3">TURMA 3</MenuItem>
+                </TextField>
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="quantidadeVM"
+                  label="Quantidade de Máquinas Virtuais"
+                  name="quantidadeVM"
+                  autoComplete="Qunatidade de maquinas virtuais"
+                  onChange={(e) => setLaboratory_name(e.target.value)}
+                  type="text"
+                />
 
-            <form className={classes.form} noValidate>
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="nomeLab"
-                label="Nome da sala de aula"
-                name="laboratory_name"
-                autoComplete="nome do Serviço"
-                autoFocus
-                onChange={(e) => setLaboratory_name(e.target.value)}
-                type="text"
-              />
-            </form>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-              // onCLinc chama a função enviar criada la em cima
-              onClick={enviar}
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  fullWidth
+                  id="select"
+                  label="Imagens Disponiveis"
+                  value=""
+                  select
+                >
+                  <MenuItem value="">
+                    <em>Nenhum</em>
+                  </MenuItem>
+                  <MenuItem value="1">Ubuntu 20.04</MenuItem>
+                  <MenuItem value="2">Windows XP</MenuItem>
+                  <MenuItem value="3">CentOS 8</MenuItem>
+                </TextField>
+              </Grid>
+              <Grid item xs={4} style={{ border: "solid" }}>
+
+                <div className={classes.paper}>
+                  <Typography component="h1" variant="h5">
+                    Configurações de Rede
+                  </Typography>
+                </div>
+                <FormGroup>
+                  <FormControlLabel
+                    control={<Switch focusVisibleClassName=".Mui-focusVisible" defaultChecked />}
+                    label="Acesso a Internet"
+                    labelPlacement="start"
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <FormControlLabel
+                    control={<Switch focusVisibleClassName=".Mui-focusVisible" 
+                    onChange={(e) => setLaboratory_name(e.target.value)} />}
+                    label="Controle Parental"
+                    labelPlacement="start"
+                  />
+                  <div>
+                    TESTE
+                  </div>
+                  {/* <div>
+                    <button
+                      onClick={() => Toggle.toggleShow(!show)}
+                    >
+                      toggle: {show ? 'show' : 'hide'}
+                    </button>
+                    {show && <div>Hi there</div>}
+                  </div> */}
+                </FormGroup>
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  fullWidth
+                  id="select"
+                  label="Turma"
+                  value=""
+                  select
+                >
+                  <MenuItem value="">
+                    <em>Nenhuma</em>
+                  </MenuItem>
+                  <MenuItem value="1">TURMA 1</MenuItem>
+                  <MenuItem value="2">TURMA 2</MenuItem>
+                  <MenuItem value="3">TURMA 3</MenuItem>
+                </TextField>
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="quantidadeVM"
+                  label="Quantidade de Máquinas Virtuais"
+                  name="quantidadeVM"
+                  autoComplete="Qunatidade de maquinas virtuais"
+                  onChange={(e) => setLaboratory_name(e.target.value)}
+                  type="text"
+                />
+
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  fullWidth
+                  id="select"
+                  label="Imagens Disponiveis"
+                  value=""
+                  select
+                >
+                  <MenuItem value="">
+                    <em>Nenhum</em>
+                  </MenuItem>
+                  <MenuItem value="1">Ubuntu 20.04</MenuItem>
+                  <MenuItem value="2">Windows XP</MenuItem>
+                  <MenuItem value="3">CentOS 8</MenuItem>
+                </TextField>
+              </Grid>
+              <Grid item xs={8}>
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  className={classes.submit}
+                  // onCLinc chama a função enviar criada la em cima
+                  onClick={enviar}
+                >
+                  Criar Laboratorio Virtual
+                </Button>
+              </Grid>
+            </Grid>
+            <Bloco
+              initial={{ marginLeft: 200 }}
+              animate={{ marginLeft: collapsed ? 64 : 168 }}
             >
-              Criar sala
-            </Button>
-          </Bloco>
+            </Bloco>
+          </form>
         </AnimatePresence>
       </Container_animate>
     </>
@@ -160,7 +306,7 @@ const Bloco = styled(motion.div)`
   align-items: center;
   padding: 20px; /* this */
   margin: 20px;
-  width: 40%;
+  width: 30%;
 `;
 
 export default CadastroProject;

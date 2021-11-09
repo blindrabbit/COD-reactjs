@@ -96,7 +96,7 @@ export default function SidebarDashboard() {
                   exit={{ opacity: 0 }}
                   initial={{ opacity: collapsed ? 0 : 1 }}
                 >
-                  Item 1
+                  Item 2
                 </motion.span>
               )}
             </AnimatePresence>
