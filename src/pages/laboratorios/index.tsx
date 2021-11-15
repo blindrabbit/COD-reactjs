@@ -1,4 +1,4 @@
-import { CssBaseline, ListItem, Button} from "@material-ui/core";
+import { CssBaseline, ListItem, Button } from "@material-ui/core";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import axios from "axios";
 import { FormEvent, useEffect, useState } from "react";
@@ -46,18 +46,31 @@ function Projects() {
 
   const dados = {
     token: "269add21e1b01a62f8854b6e2a0e38",
-    username: "test10",
+    username: "test10000",
+    project: "8bf8529d9c144b04b6a9d9fb87bcd7f7",
+
   };
 
-  useEffect(() => {
-    const config = {
-      headers: { token: dados.token, username: dados.username },
-    };
+  // useEffect(() => {
+  //   const config = {
+  //     headers: { token: dados.token, username: dados.username },
+  //   };
 
-    // PARA ENVIAR PRA BUSCAR INFORMAÇÇÕES DE UM PROJETO
-    // ESPECIFICO: `/laboratory/${config}`
-    api.get("/laboratory/", config).then((res) => setState(res.data));
-  }, [dados.token, dados.username]);
+  //   // PARA ENVIAR PRA BUSCAR INFORMAÇÇÕES DE UM PROJETO
+  //   // ESPECIFICO: `/laboratory/${config}`
+  //   api.get("/laboratory/", config).then((res) => setState(res.data));
+  // }, [dados.token, dados.username]);
+
+  // useEffect(() => {
+  //   const config = {
+  //     headers: { token: dados.token, username: dados.username, project: dados.project},
+  //   };
+  //   // PARA ENVIAR PRA BUSCAR INFORMAÇÇÕES DE UM PROJETO
+  //   // ESPECIFICO: `/laboratory/${config}`
+  //   //8bf8529d9c144b04b6a9d9fb87bcd7f7 projeto ADMIN
+  //   //2f44a11babd24065809de401c1219e19 projeto lab-sfc
+  //   api.get(`/vdi/${project}`, config).then((res) => setState(res.data));
+  // }, [dados.token, dados.username, dados.project]);
 
   // const CardContainer = styled(motion.div)`
   //   display: grid;
@@ -73,6 +86,7 @@ function Projects() {
 
   const [collapsed, setCollapsed] = useState(true);
 
+
   useEffect(() => {
     const subscribe = barrinhaService.onBarrinha().subscribe((state) => {
       if (state) {
@@ -82,7 +96,15 @@ function Projects() {
       }
     });
   });
+  
+  const [projeto, setProjeto] = useState(0);
 
+  // Similar ao componentDidMount e componentDidUpdate:
+  useEffect(() => {
+    // Atualiza o titulo do documento usando a API do browser
+    // document.title = `Você clicou ${count} vezes`;
+    api.get(`/vdi/${projeto}`)
+  })
   return (
     <>
       <SidebarDashboard /> {/* <CssBaseline /> */}
@@ -93,23 +115,30 @@ function Projects() {
       {/* ISSO É PARA O RETORNO DE UMA STRING APENAS */}
       {/* <Grid> */}
       <Container>
+        <div>
+          <Button className={clsx(classes.root)}>Laboratórios disponíveis!</Button>
+        </div>
+        <div>
+          {/* onChange={setProjetochange(state.value)} value={state.value} */}
+          <select name="projetoSelect" id="lang">
+            <option value="">-- Select --</option>
+            <option value="8bf8529d9c144b04b6a9d9fb87bcd7f7">Admin</option>
+            <option value="2f44a11babd24065809de401c1219e19">lab-sfc</option>
+          </select>
+        </div>
         <AnimatePresence>
           {state.map((d, idx) => (
             <Bloco
               // pra mostrar item por item preciso da key
-              key={d}
+              key={d["id"]}
               whileHover={{ backgroundColor: "green" }}
               initial={{ marginLeft: 200 }}
               animate={{ marginLeft: collapsed ? 64 : 168 }}
             >
-              {d}
+              <a href={d["url"]} target="_blank">{d["nome"]}</a>
             </Bloco>
           ))}
         </AnimatePresence>
-        
-        <div>
-                  <Button className={clsx(classes.root)}>Laboratórios disponíveis!</Button>
-                </div>
       </Container>
     </>
   );
