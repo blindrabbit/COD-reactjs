@@ -1,17 +1,14 @@
-import { CssBaseline, ListItem, Button } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
-import axios, { AxiosResponse } from "axios";
 import { FormEvent, useEffect, useState } from "react";
 import { useHistory } from "react-router";
-import { Navbartop } from "../../components/navbartop/navbartest";
-// import { Barrinha } from "../../components/sidebar";
 import api from "../../services/api";
 import styled from "@emotion/styled";
 import { AnimatePresence, AnimateSharedLayout, motion } from "framer-motion";
 import SidebarDashboard from "../../components/sidebar";
 import barrinhaService from "../../services/barrinhaState";
 import clsx from "clsx";
-import { stringify } from "querystring";
+import { NavLink, useLocation } from "react-router-dom";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -25,22 +22,6 @@ const useStyles = makeStyles((theme: Theme) =>
         },
     })
 );
-
-const countriesData = [
-    {
-        name: "Germany",
-        states: ["Duesseldorf", "Leinfelden-Echterdingen", "Eschborn"]
-    },
-    {
-        name: "India",
-        states: ["Delhi", "Kolkata", "Mumbai", "Bangalore"]
-    },
-    {
-        name: "France",
-        states: ["Auvergne", "Bretagne", "Corse", "Centre"]
-    }
-];
-
 
 function Pagina_de_Teste() {
     // MEU RETORNO DEVE SER UMA LISTA DE OBJETOS
@@ -56,12 +37,13 @@ function Pagina_de_Teste() {
     const history = useHistory();
     const [selectedId, setSelectedId] = useState(null);
 
-    const dados = {
-        token: "269add21e1b01a62f8854b6e2a0e38",
-        username: "test10000",
-        project: "8bf8529d9c144b04b6a9d9fb87bcd7f7",
+    // const dados = {
+    //     token: "269add21e1b01a62f8854b6e2a0e38",
+    //     username: "test10000",
+    //     project: "8bf8529d9c144b04b6a9d9fb87bcd7f7",
 
-    };
+    // };
+
     const [collapsed, setCollapsed] = useState(true);
 
     useEffect(() => {
@@ -80,37 +62,35 @@ function Pagina_de_Teste() {
         api.get(`/listarprojetos/`).then((projetos) => listProjeto(projetos.data));
     }, []);
 
-    const [{ country, state }, setData] = useState({
-        country: "Germany",
-        state: ""
-    });
-
     const [virtualDesktops, listVirtualDesktops] = useState([]);
 
     const handleLaboratoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedIndex = event.target.selectedIndex;
         const lab_name = event.target[selectedIndex].getAttribute('value')
         const lab_id = event.target[selectedIndex].getAttribute('id')
-        // console.log("API PARA LISTAR AS MAQUINAS VIRTUAIS DO PROJETO " + lab_name + " - " + lab_id)
         api.get(`/vdi/${lab_id}/${lab_name}`).then((virtualDesktops) => listVirtualDesktops(virtualDesktops.data))
     }
 
-    window.addEventListener("beforeunload", (ev) => {
-        ev.preventDefault();
-        return ev.returnValue = 'Are you sure you want to close?';
-    });
+    const onClickButtonVDI = (dados: any) => {
+        history.push({
+            pathname: '/vdi/',
+            state: dados
+        });
+        console.log("Botão clicado!")
+    }
+
+    const location = useLocation();
 
     return (
         <>
             <SidebarDashboard />
             <Container>
                 <div>
-                    <Button className={clsx(classes.root)}>Laboratórios disponíveis!</Button>
+                    <h1>Laboratórios disponíveis!</h1><br></br>
                 </div>
                 <div>
                     <AnimatePresence>
                         <select
-                            // value={}
                             onChange={handleLaboratoryChange}
                         >
                             <option value="">-- Selecionar --</option>
@@ -120,6 +100,17 @@ function Pagina_de_Teste() {
                                 </option>
                             ))}
                         </select>
+                    </AnimatePresence>
+                    <br></br>
+                    <pre>{JSON.stringify(virtualDesktops, null, 2)}</pre>
+                    <AnimatePresence>
+                        {virtualDesktops.length > 0 &&
+                            <Button
+                                hidden
+                                className={clsx(classes.root)}
+                                onClick={() => onClickButtonVDI(virtualDesktops[0])}
+                            >COnectar!</Button>
+                        }
                     </AnimatePresence>
                     <AnimatePresence>
                         <div>
@@ -131,13 +122,18 @@ function Pagina_de_Teste() {
                                     initial={{ marginLeft: 200 }}
                                     animate={{ marginLeft: collapsed ? 64 : 168 }}
                                 >
-                                    <a href={d["url"]} target="_blank">{d["nome"]}</a>
+                                    <NavLink to={{
+                                        pathname: '/vdi',
+                                        state: [d["url"]]
+                                    }} > {d["nome"]} </NavLink>
+
+                                    {/* <a href={"/vdi?url=" + d["url"]} target="_blank">{d["nome"]}</a> */}
                                 </Bloco>
                             ))}
                         </div>
                     </AnimatePresence>
                 </div>
-            </Container>
+            </Container >
         </>
     );
 }

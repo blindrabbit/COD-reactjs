@@ -10,26 +10,31 @@ import Projects from "./pages/laboratorios";
 import CadastroProject from "./pages/create_laboratory";
 import List_image from "./pages/select_image";
 import Pagina_de_Teste from "./pages/pagina_de_teste";
+import VDI from "./pages/vdi";
+import { CookiesProvider } from "react-cookie";
 
 // DEFININDO AS ROTAS
 // Também tenho as funções para chamar as páginas
 
 const Rotas = () => {
   return (
-    <BrowserRouter>
-      {/* adicionar as rotas futuramente. exemplo abaixo*/}
+    <CookiesProvider>
+      <BrowserRouter>
+        {/* adicionar as rotas futuramente. exemplo abaixo*/}
 
-      <Route component={List_image} path="/select_image" exact />
-      <Route component={CadastroProject} path="/create_project" exact />
-      <Route component={Projects} path="/projects" exact />
-      <Route component={Equip} path="/equip" exact />
-      <Route component={Home} path="/" exact />
-      <Route component={CadastroUser} path="/cadastrouser" exact />
-      <Route component={Dashboard} path="/dashboard" exact />
-      <Route component={login} path="/login" exact />
-      <Route component={Authentication} path="/authentication" exact />
-      <Route component={Pagina_de_Teste} path="/Pagina_de_Teste" exact />
-    </BrowserRouter>
+        <Route component={List_image} path="/select_image" exact />
+        <Route component={CadastroProject} path="/create_project" exact />
+        <Route component={Projects} path="/projects" exact />
+        <Route component={Equip} path="/equip" exact />
+        <Route component={Home} path="/" exact />
+        <Route component={CadastroUser} path="/cadastrouser" exact />
+        <Route component={Dashboard} path="/dashboard" exact />
+        <Route component={login} path="/login" exact />
+        <Route component={Authentication} path="/authentication" exact />
+        <Route component={Pagina_de_Teste} path="/Pagina_de_Teste" exact />
+        <Route component={VDI} path="/vdi" exact />
+      </BrowserRouter>
+    </CookiesProvider>
   );
 };
 
