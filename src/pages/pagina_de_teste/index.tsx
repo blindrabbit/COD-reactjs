@@ -1,19 +1,22 @@
 import { Button } from "@material-ui/core";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
-import { FormEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import api from "../../services/api";
 import styled from "@emotion/styled";
-import { AnimatePresence, AnimateSharedLayout, motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import SidebarDashboard from "../../components/sidebar";
 import barrinhaService from "../../services/barrinhaState";
 import clsx from "clsx";
-import { NavLink, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import ComputerIcon from '@material-ui/icons/Computer';
+import { useCookies } from "react-cookie";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
             flexGrow: 1,
+            textAlign: "center"
         },
         paper: {
             padding: theme.spacing(24),
@@ -58,7 +61,6 @@ function Pagina_de_Teste() {
 
     const [projetos, listProjeto] = useState([]);
     useEffect(() => {
-        console.log("API PARA LISTAR OS PROJETOS")
         api.get(`/listarprojetos/`).then((projetos) => listProjeto(projetos.data));
     }, []);
 
@@ -76,67 +78,161 @@ function Pagina_de_Teste() {
             pathname: '/vdi/',
             state: dados
         });
-        console.log("Botão clicado!")
     }
 
     const location = useLocation();
+
+    const [cookies, setCookie] = useCookies(['serverused']);
+
+    var server = {
+        "server_id": '',
+        "project_id": '',
+        "server_nome": '',
+        "server_tipo": '',
+        "server_url": '',
+        "is_server_ativo": ''
+    }
+
+    function cookieHandle() {
+        var temp = ''
+        var temps = {}
+        if (typeof cookies.serverused === 'undefined') {
+            // SEM COOKIE DE UTILIZAÇÃO DE ALGUMA MAQUINA VIRUTAL
+            return 0
+        } else {
+            const temp = JSON.parse(decodeURI(cookies.serverused));
+            // console.log(cookies.serverused)
+            // temp = decodeURI(cookies.serverused)
+            server = temp
+            console.log(server.project_id)
+            // temps = JSON.parse(temp)
+            // console.log(temps)
+            // console.log(temp['project_id'])
+            // server['server_id']=temp.server_id
+        }
+        return 1
+    }
+
+    // var serverCookie = ''
+    // var testeserver = ''
+    // var testejson = ''
+    // const onCookie = (dados: any) => {
+    //     serverCookie = decodeURI(dados)
+    //     serverCookie = JSON.parse(serverCookie)
+    //     return serverCookie
+    // }
 
     return (
         <>
             <SidebarDashboard />
             <Container>
                 <div>
-                    <h1>Laboratórios disponíveis!</h1><br></br>
+                    <Titulo>Laboratórios disponíveis!</Titulo>
                 </div>
                 <div>
                     <AnimatePresence>
-                        <select
-                            onChange={handleLaboratoryChange}
-                        >
-                            <option value="">-- Selecionar --</option>
-                            {projetos.map((proj) => (
-                                <option id={(proj['id'])} value={(proj['nome'])}>
-                                    {proj['nome']}
-                                </option>
-                            ))}
-                        </select>
+                        <Div>
+                            <select
+                                onChange={handleLaboratoryChange}
+                            >
+                                <option value="">-- Selecionar --</option>
+                                {projetos.map((proj) => (
+                                    <option id={(proj['id'])} value={(proj['nome'])}>
+                                        {proj['nome']}
+                                    </option>
+                                ))}
+                            </select>
+                        </Div>
                     </AnimatePresence>
                     <br></br>
-                    <pre>{JSON.stringify(virtualDesktops, null, 2)}</pre>
-                    <AnimatePresence>
-                        {virtualDesktops.length > 0 &&
+                    <div>
+                        {cookieHandle() == 1 &&
+                        <Div>
+                            <br></br>
+                            {/* <p>{JSON.stringify(virtualDesktops[0], null, 2)}</p> */}
+                            <p>Há uma sessão previamente iniciada, deseja restaura-la?</p>
+                            <br></br>
                             <Button
-                                hidden
+                                startIcon={<ComputerIcon />}
+                                size="large"
+                                variant="contained"
                                 className={clsx(classes.root)}
-                                onClick={() => onClickButtonVDI(virtualDesktops[0])}
-                            >COnectar!</Button>
+                                onClick={() => onClickButtonVDI(server)}
+                            >Restaurar acesso!</Button>
+                        </Div>
+                        // <div>
+                        //     {server.server_id}<br></br>
+                        //     {server.server_nome}<br></br>
+                        //     {server.server_tipo}<br></br>
+                        //     {server.server_id}<br></br>
+                        // </div>
                         }
-                    </AnimatePresence>
-                    <AnimatePresence>
-                        <div>
-                            {virtualDesktops.map((d, idx) => (
-                                <Bloco
-                                    // pra mostrar item por item preciso da key
-                                    key={d["id"]}
-                                    whileHover={{ backgroundColor: "rgb(1, 87, 61)" }}
-                                    initial={{ marginLeft: 200 }}
-                                    animate={{ marginLeft: collapsed ? 64 : 168 }}
-                                >
-                                    <NavLink to={{
-                                        pathname: '/vdi',
-                                        state: [d["url"]]
-                                    }} > {d["nome"]} </NavLink>
 
-                                    {/* <a href={"/vdi?url=" + d["url"]} target="_blank">{d["nome"]}</a> */}
-                                </Bloco>
-                            ))}
-                        </div>
+                        {/* && 
+                            <h3> 
+                                TESTE                           
+                                {cookieHandle(cookies.serverused)['server_nome']}
+                            </h3>
+                        } */}
+                        {/* {cookies.serverused}
+                        Cookie:<br></br>
+                        server_name:<br></br>*/}
+                        {/* {cookieHandle(cookies.serverused)['server_nome']} */}
+                        {/*
+                        project_id:<br></br>
+                        {cookieHandle(cookies.serverused)['project_id']} */}
+                    </div>
+                    <AnimatePresence>
+                        {/* // var _user_attributes = cookies.get("_user_attributes");
+                        // if (_user_attributes) {
+                        //   _user_attributes = decodeURI(_user_attributes);
+                        //   const user_attributes = JSON.parse(_user_attributes);
+                        //   console.log(user_attributes);
+                        //   this.state = {
+                        //     name: user_attributes.user_givenName
+                        //   }; 
+                    */}
+                        {/* {cookies && 
+                            <h1>VOCE ESCOLHEU ANTERIORMENTE ESSE PC: {cookies}!</h1>
+                        } */}
+                        {virtualDesktops.length > 0 &&
+                            <Div>
+                                <br></br>
+                                {/* <p>{JSON.stringify(virtualDesktops[0], null, 2)}</p> */}
+                                <p>Desktops disponíveis: {virtualDesktops.length}</p>
+                                <br></br>
+                                <Button
+                                    startIcon={<ComputerIcon />}
+                                    size="large"
+                                    variant="contained"
+                                    className={clsx(classes.root)}
+                                    onClick={() => onClickButtonVDI(virtualDesktops[0])}
+                                >Conectar!</Button>
+                            </Div>
+                        }
                     </AnimatePresence>
                 </div>
             </Container >
         </>
     );
 }
+
+const Titulo = styled.div`
+  vertical-align: middle;
+  display: flex;
+  justifycontent: center;
+  flex-direction: column;
+  padding: 50px;
+  font-size:large !important;
+  align-items: center;
+`;
+
+const Div = styled.div`
+  display: flex;
+  justifycontent: center;
+  flex-direction: column;
+  align-items: center;
+`;
 
 const Container = styled.div`
   display: flex;

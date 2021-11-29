@@ -8,10 +8,15 @@ import api from "../../services/api";
 import { useHistory } from "react-router";
 import { Button } from "@material-ui/core";
 import clsx from "clsx";
+import { useCookies } from 'react-cookie';
 
 const VDI = () => {
+
+    const [cookies, setCookie] = useCookies(['serverused']);
+
     window.addEventListener("beforeunload", (ev) => {
         ev.preventDefault();
+        onClickButtonDesconectar(s)
         return ev.returnValue = 'Are you sure you want to close?' + vmsListParse["id"];
     });
 
@@ -42,6 +47,19 @@ const VDI = () => {
             is_server_ativo: vmsListParse["ativo"]
         }).then((server) => setServer(server.data));
     }, []);
+
+   
+    const onChange = (newName: any) => {
+        var temp = { 
+            server_id: vmsListParse["id"],
+            project_id: vmsListParse["projeto_id"],
+            server_nome: vmsListParse["nome"],
+            server_tipo: vmsListParse["tipo"],
+            server_url: vmsListParse["url"],
+            is_server_ativo: vmsListParse["ativo"]};
+        var aux=encodeURI(JSON.stringify(temp))
+        setCookie('serverused', aux, { path: '/' });
+    }
 
     const location = useLocation();
     const vmsListParse = JSON.parse(JSON.stringify(location.state, null, 2));
@@ -77,6 +95,17 @@ const VDI = () => {
                     <p>Nome: {vmsListParse["nome"]}</p>
                     <p>Projeto[ID]: {vmsListParse["projeto_id"]}</p>
                     <p>Server[ID]: {vmsListParse["id"]}</p>
+                    <p>Em uso[?]: {vmsListParse["ativo"]}</p>
+                    return (
+                    <div>
+                        <Button
+                            hidden
+                            name={cookies.serverused}
+                            onClick={() => onChange(s)}
+                        >COOKIE!
+                        </Button>
+                        {cookies.serverused && <h1>Hello {cookies.serverused}!</h1>}
+                    </div>
                 </div>
                 <div>
                     <AnimatePresence>
