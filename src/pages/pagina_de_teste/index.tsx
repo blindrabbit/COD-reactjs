@@ -73,7 +73,13 @@ function Pagina_de_Teste() {
         api.get(`/vdi/${lab_id}/${lab_name}`).then((virtualDesktops) => listVirtualDesktops(virtualDesktops.data))
     }
 
-    const onClickButtonVDI = (dados: any) => {
+    const onClickButtonVDI = (dados: any, conexao = 'nova') => {
+        if (conexao != 'nova') {
+            dados.ativo = 'restaurar'
+        } else {
+            dados.ativo = 'nova'
+        }
+
         history.push({
             pathname: '/vdi/',
             state: dados
@@ -85,30 +91,22 @@ function Pagina_de_Teste() {
     const [cookies, setCookie] = useCookies(['serverused']);
 
     var server = {
-        "server_id": '',
-        "project_id": '',
-        "server_nome": '',
-        "server_tipo": '',
-        "server_url": '',
-        "is_server_ativo": ''
+        "id": '',
+        "projeto_id": '',
+        "nome": '',
+        "tipo": '',
+        "url": '',
+        "ativo": ''
     }
 
     function cookieHandle() {
-        var temp = ''
-        var temps = {}
-        if (typeof cookies.serverused === 'undefined') {
-            // SEM COOKIE DE UTILIZAÇÃO DE ALGUMA MAQUINA VIRUTAL
+        if (typeof cookies.serverused === 'undefined' || cookies.serverused === '') {
+            console.log('COOKIE INDEFINIDO OU ZERADO!')
             return 0
         } else {
-            const temp = JSON.parse(decodeURI(cookies.serverused));
-            // console.log(cookies.serverused)
-            // temp = decodeURI(cookies.serverused)
-            server = temp
-            console.log(server.project_id)
-            // temps = JSON.parse(temp)
-            // console.log(temps)
-            // console.log(temp['project_id'])
-            // server['server_id']=temp.server_id
+            server = JSON.parse(decodeURI(cookies.serverused));
+            console.log('VALOR DO COOKIE:')
+            console.log(cookies.serverused)
         }
         return 1
     }
@@ -145,69 +143,50 @@ function Pagina_de_Teste() {
                         </Div>
                     </AnimatePresence>
                     <br></br>
-                    <div>
-                        {cookieHandle() == 1 &&
-                        <Div>
-                            <br></br>
-                            {/* <p>{JSON.stringify(virtualDesktops[0], null, 2)}</p> */}
-                            <p>Há uma sessão previamente iniciada, deseja restaura-la?</p>
-                            <br></br>
-                            <Button
-                                startIcon={<ComputerIcon />}
-                                size="large"
-                                variant="contained"
-                                className={clsx(classes.root)}
-                                onClick={() => onClickButtonVDI(server)}
-                            >Restaurar acesso!</Button>
-                        </Div>
-                        // <div>
-                        //     {server.server_id}<br></br>
-                        //     {server.server_nome}<br></br>
-                        //     {server.server_tipo}<br></br>
-                        //     {server.server_id}<br></br>
-                        // </div>
-                        }
-
-                        {/* && 
-                            <h3> 
-                                TESTE                           
-                                {cookieHandle(cookies.serverused)['server_nome']}
-                            </h3>
-                        } */}
-                        {/* {cookies.serverused}
-                        Cookie:<br></br>
-                        server_name:<br></br>*/}
-                        {/* {cookieHandle(cookies.serverused)['server_nome']} */}
-                        {/*
-                        project_id:<br></br>
-                        {cookieHandle(cookies.serverused)['project_id']} */}
-                    </div>
+                    <p>VDI: {JSON.stringify(virtualDesktops[0])}</p>
                     <AnimatePresence>
-                        {/* // var _user_attributes = cookies.get("_user_attributes");
-                        // if (_user_attributes) {
-                        //   _user_attributes = decodeURI(_user_attributes);
-                        //   const user_attributes = JSON.parse(_user_attributes);
-                        //   console.log(user_attributes);
-                        //   this.state = {
-                        //     name: user_attributes.user_givenName
-                        //   }; 
-                    */}
-                        {/* {cookies && 
-                            <h1>VOCE ESCOLHEU ANTERIORMENTE ESSE PC: {cookies}!</h1>
-                        } */}
                         {virtualDesktops.length > 0 &&
                             <Div>
-                                <br></br>
-                                {/* <p>{JSON.stringify(virtualDesktops[0], null, 2)}</p> */}
-                                <p>Desktops disponíveis: {virtualDesktops.length}</p>
-                                <br></br>
-                                <Button
-                                    startIcon={<ComputerIcon />}
-                                    size="large"
-                                    variant="contained"
-                                    className={clsx(classes.root)}
-                                    onClick={() => onClickButtonVDI(virtualDesktops[0])}
-                                >Conectar!</Button>
+                                {cookieHandle() == 1 &&
+                                    server.projeto_id == virtualDesktops[0]['projeto_id'] &&
+                                    <Div>
+                                        <p>COOKIE: {JSON.stringify(server)}</p>
+                                        <p>Há uma sessão previamente iniciada, deseja restaura-la?</p>
+                                        <br></br>
+                                        <Button
+                                            startIcon={<ComputerIcon />}
+                                            size="large"
+                                            variant="contained"
+                                            className={clsx(classes.root)}
+                                            onClick={() => onClickButtonVDI(server, 'restaurar')}
+                                        >Restaurar acesso!</Button>
+                                    </Div>}
+                                <Div>??
+                                    <div>
+                                        {virtualDesktops.filter(desktop => desktop['id'] != server.id).map(listaDesktops => (
+                                            <p>{listaDesktops['nome']}</p>
+                                        ))}
+                                        {/* {virtualDesktops.filter(desktop => desktop['id'] != server.id)[0]} */}
+                                        {/* {people.filter(person => person.age < 60).map(filteredPerson => (
+                                            <li>
+                                                {filteredPerson.name}
+                                            </li>
+                                        ))} */}
+                                    </div>
+                                </Div>
+                                <Div>
+                                    <br></br>
+                                    <p>Desktops disponíveis: {virtualDesktops.length}</p>
+                                    <br></br>
+                                    <Button
+                                        startIcon={<ComputerIcon />}
+                                        size="large"
+                                        variant="contained"
+                                        className={clsx(classes.root)}
+                                        // onClick={() => onClickButtonVDI(virtualDesktops[0])}
+                                        onClick={() => onClickButtonVDI(virtualDesktops.filter(desktop => desktop['id'] != server.id)[0])}
+                                    >Conectar!</Button>
+                                </Div>
                             </Div>
                         }
                     </AnimatePresence>
