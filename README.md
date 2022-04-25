@@ -44,3 +44,22 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+
+### Instalar o ambiente FRONT END - REACT no ubuntu 20.04
+
+```console
+sudo update
+sudo upgrade
+sudo apt install curl gnupg2 -y
+sudo curl -sL https://deb.nodesource.com/setup_14.x | sudo bash -
+sudo apt-get install -y nodejs
+sudo apt-get install -y gcc g++ make
+
+sudo npm install npm@latest -g
+git clone https://github.com/blindrabbit/COD-reactjs
+
+cd COD-reactjs
+npm install
+npm start&
+```
