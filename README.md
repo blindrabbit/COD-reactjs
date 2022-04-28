@@ -49,8 +49,8 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 ### Instalar o ambiente FRONT END - REACT no ubuntu 20.04
 
 ```console
-sudo update
-sudo upgrade
+sudo apt update
+sudo apt upgrade
 sudo apt install curl gnupg2 -y
 sudo curl -sL https://deb.nodesource.com/setup_14.x | sudo bash -
 sudo apt-get install -y nodejs
