@@ -11,11 +11,11 @@ function Footer() {
         <div className="copyright">
           &copy; Copyright{" "}
           <strong>
-            <span>Harrison Sanches</span>
+            <span>@</span>
           </strong>
           . All Rights Reserved
         </div>
-        <div className="credits">Designed by HS</div>
+        <div className="credits">Designed by @</div>
       </div>
     </footer>
   );

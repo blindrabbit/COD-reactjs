@@ -25,6 +25,7 @@ import OutlinedInput from "@material-ui/core/OutlinedInput";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import { TextField } from "@material-ui/core";
 import { Navbartop } from "../../components/navbartop/navbartest";
+import pool from "../../db/database";
 
 // Componente sempre com letra maiúscula--
 const UseStyles = makeStyles((theme) => ({
@@ -70,6 +71,8 @@ interface State {
   username: string;
   password: string;
   name: string;
+  matricula: string;
+  email: string;
   showPassword: boolean;
 }
 
@@ -88,6 +91,8 @@ function CadastroUser() {
     username: "",
     password: "",
     name: "",
+    matricula: "",
+    email: "",
     showPassword: false,
   });
 
@@ -106,18 +111,29 @@ function CadastroUser() {
     event.preventDefault();
   };
 
+  //async function registraProf(values) {
+  //var dados = values
+
+  // var query = database.insert(values).into("professor");
+  //  }
+
   const enviar = async (e: FormEvent) => {
     e.preventDefault();
+    const dados = { values };
 
+    //const selecao = await pool("professor").select("*").where("id", "=", 2);
+    const query = await pool("professor").insert(dados).returning("*");
+
+    console.log(dados);
     // pegar a hora atual
-    // const time = new Date();
-    // const data = {
-    //   name,
-    //   username,
-    //   password,
-    //   time,
-    // };
-    // console.log(data);
+    const time = new Date();
+    //const data = {
+    //name,
+    // username,
+    // password,
+    // time,
+    //};
+    //console.log(data);
 
     // POST QUANDO MINHA API ESTIVER ONLINE
     // ROTA PARA CRIAÇÃO DE USUÁRIO
@@ -185,33 +201,31 @@ function CadastroUser() {
           />
         </FormControl>
 
-        {/* corrigir esses debaixo */}
-
-        <FormControl
-          className={clsx(classes.margin, classes.textField)}
-          variant="outlined"
-        >
-          <InputLabel htmlFor="outlined-adornment-password">
-            Username
-          </InputLabel>
-          <Input
-            className="form"
-            id="outlined-adornment-username"
+        <FormControl className={clsx(classes.form)}>
+          <TextField
+            id="userName"
+            fullWidth
             type="text"
-            fullWidth={true}
-            // label="Nome"
+            variant="outlined"
             margin="none"
-            name="nome"
+            required
+            label="Username"
+            name="userName"
+            autoComplete="userName"
             autoFocus
+            value={values.username}
             onChange={handleChange("username")}
-            endAdornment={
-              <InputAdornment position="end">
-                {/* <IconButton aria-label="toggle password visibility" edge="end">
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  {/* <IconButton aria-label="toggle password visibility" edge="end">
                   {" "} */}
-                <AccountCircle />
-              </InputAdornment>
-            }
-            // labelWidth={75}
+
+                  <AccountCircle />
+                </InputAdornment>
+              ),
+            }}
+            // labelWidth={0}
           />
         </FormControl>
 
@@ -241,6 +255,62 @@ function CadastroUser() {
           />
         </FormControl>
 
+        <FormControl className={clsx(classes.form)}>
+          <TextField
+            id="matricula"
+            fullWidth
+            type="text"
+            variant="outlined"
+            margin="none"
+            required
+            label="Matricula"
+            name="matricula"
+            autoComplete="email"
+            autoFocus
+            value={values.matricula}
+            onChange={handleChange("matricula")}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  {/* <IconButton aria-label="toggle password visibility" edge="end">
+                  {" "} */}
+
+                  <AccountCircle />
+                </InputAdornment>
+              ),
+            }}
+            // labelWidth={0}
+          />
+        </FormControl>
+
+        <FormControl className={clsx(classes.form)}>
+          <TextField
+            id="email"
+            fullWidth
+            type="text"
+            variant="outlined"
+            margin="none"
+            required
+            label="Email"
+            name="email"
+            autoComplete="email"
+            autoFocus
+            value={values.email}
+            onChange={handleChange("email")}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  {/* <IconButton aria-label="toggle password visibility" edge="end">
+                  {" "} */}
+
+                  <AccountCircle />
+                </InputAdornment>
+              ),
+            }}
+            // labelWidth={0}
+          />
+        </FormControl>
+
         <Button
           type="submit"
           fullWidth
@@ -248,6 +318,7 @@ function CadastroUser() {
           color="primary"
           className={classes.submit}
           // onCLinc chama a função enviar criada la em cima
+
           onClick={enviar}
         >
           Cadastrar

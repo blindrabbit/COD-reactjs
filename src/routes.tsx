@@ -11,6 +11,8 @@ import CadastroProject from "./pages/create_laboratory";
 import List_image from "./pages/select_image";
 import Pagina_de_Teste from "./pages/pagina_de_teste";
 import VDI from "./pages/vdi";
+import Contato from "./pages/contato";
+import Info from "./pages/info";
 import { CookiesProvider } from "react-cookie";
 
 // DEFININDO AS ROTAS
@@ -33,6 +35,8 @@ const Rotas = () => {
         <Route component={Authentication} path="/authentication" exact />
         <Route component={Pagina_de_Teste} path="/Pagina_de_Teste" exact />
         <Route component={VDI} path="/vdi" exact />
+        <Route component={Contato} path="/contato" exact />
+        <Route component={Info} path="/info" exact />
       </BrowserRouter>
     </CookiesProvider>
   );

@@ -6,6 +6,9 @@ import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import logo from "../../assets/img/COD_LOGOvs2.png";
 import FOTO from "../../assets/img/foto.png";
 import ELON from "../..//assets/img/team/elon.jpg";
+import VITOR from "../..//assets/img/team/vitor.jpg";
+import RENAN from "../..//assets/img/team/renan.jpg";
+import CRISTINA from "../..//assets/img/team/cristina.png";
 import "./style.css";
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -44,10 +47,10 @@ function Equip() {
           <Grid item xs={4}>
             <Grid container spacing={2} direction="column">
               <Grid item xs={12} data-aos="fade-down">
-                <img src={ELON} className="img_test" alt=""></img>
+                <img src={VITOR} className="img_test" alt=""></img>
               </Grid>
               <Grid item xs={12} data-aos="fade-up">
-                <h1>DOGECOIN</h1>
+                <h1>Autor do trabalho</h1>
               </Grid>
             </Grid>
 
@@ -56,10 +59,10 @@ function Equip() {
           <Grid item xs={4}>
             <Grid container spacing={2} direction="column">
               <Grid item xs={12} data-aos="fade-down">
-                <img src={ELON} className="img_test" alt=""></img>
+                <img src={CRISTINA} className="img_test" alt=""></img>
               </Grid>
               <Grid item xs={12} data-aos="fade-up" alignItems="center">
-                <h1>DOGECOIN</h1>
+                <h1>Orientadora</h1>
               </Grid>
             </Grid>
 
@@ -68,12 +71,10 @@ function Equip() {
           <Grid item xs={4}>
             <Grid container spacing={2} direction="column">
               <Grid item xs={12} data-aos="fade-down">
-                <img src={ELON} className="img_test" alt=""></img>
+                <img src={RENAN} className="img_test" alt=""></img>
               </Grid>
               <Grid item xs={12} data-aos="fade-up" alignContent="center">
-                <h1>DOGECOIN</h1>
-                <h1 className="txt_test">DOGECOIN</h1>
-                <h1 className="txt_test">DOGECOIN</h1>
+                <h1>Co-Orientador</h1>
               </Grid>
             </Grid>
 

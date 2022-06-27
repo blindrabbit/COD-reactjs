@@ -1,0 +1,12 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\config",
+    "\\models",
+    "\\src",
+    "\\src\\pages\\cadastroUser",
+    "\\src\\pages\\create_laboratory"
+  ],
+  "SelectedNode": "\\src\\database.ts",
+  "PreviewInSolutionExplorer": false
+}

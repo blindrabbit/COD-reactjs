@@ -27,6 +27,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
+
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(5),
@@ -93,7 +94,9 @@ function CadastroProject() {
       .catch(() => {
         alert("Serviço já existente");
       });
-  };
+    };
+
+
 
   return (
     // importante, sempre retornar um componente
@@ -208,9 +211,7 @@ function CadastroProject() {
                     label="Controle Parental"
                     labelPlacement="start"
                   />
-                  <div>
-                    TESTE
-                  </div>
+                 
                   {/* <div>
                     <button
                       onClick={() => Toggle.toggleShow(!show)}

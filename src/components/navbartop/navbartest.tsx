@@ -118,16 +118,16 @@ export const Navbartop = () => {
               className={classes.navDisplayFlex}
             >
               <ListItemLink to="/#" primary="Serviços" icon={<WorkIcon />} />
-              <ListItemLink to="/#" primary="Equipe" icon={<FreeBreakfast />} />
+              <ListItemLink to="/equip" primary="Equipe" icon={<FreeBreakfast />} />
               <ListItemLink
-                to="/#"
+                to="/contato"
                 primary="Contato"
                 icon={<SmartphoneIcon />}
               />
-              <ListItemLink to="/#" primary="Sobre" icon={<InfoIcon />} />
+              <ListItemLink to="/info" primary="Sobre" icon={<InfoIcon />} />
 
               <ListItemLink
-                to="/#"
+                to="/login"
                 primary="Login"
                 icon={<AccountCircleIcon />}
               />
